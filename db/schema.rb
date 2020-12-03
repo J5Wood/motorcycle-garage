@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2020_12_01_022622) do
     t.string "name"
     t.integer "year"
     t.string "color"
-    t.string "mileage"
+    t.integer "mileage"
     t.string "user_id"
     t.string "brand_id"
   end

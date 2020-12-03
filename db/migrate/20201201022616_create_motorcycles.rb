@@ -4,7 +4,7 @@ class CreateMotorcycles < ActiveRecord::Migration[5.2]
       t.string :name
       t.integer :year
       t.string :color
-      t.string :mileage
+      t.integer :mileage
       t.string :user_id
       t.string :brand_id
     end
