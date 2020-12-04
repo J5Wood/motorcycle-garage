@@ -1,13 +1,25 @@
 class UsersController < ApplicationController
 
     get '/users/:id' do
-        @user = User.find_by_id(session[:user_id])
-        erb :'users/show'
+        if self.logged_in?
+            @user = User.find_by_id(session[:user_id])
+            if @user.id == params[:id].to_i
+                erb :'users/show'
+            else
+                redirect "/users/#{session[:user_id]}"
+            end
+        else
+            redirect '/'
+        end
     end
 
     get '/users/:id/edit' do
-        @user = User.find_by_id(session[:user_id])
-        erb :'users/edit'
+        if session[:user_id] == params[:id].to_i
+            @user = User.find_by_id(session[:user_id])
+            erb :'users/edit'
+        else
+            redirect '/'
+        end
     end
 
     patch '/users/:id' do
@@ -28,8 +40,5 @@ class UsersController < ApplicationController
             @user.save
         end
         redirect "/users/#{@user.id}"
-    end
-
-    
-        
+    end  
 end

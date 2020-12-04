@@ -4,7 +4,11 @@ class ApplicationController < Sinatra::Base
     enable :sessions
 
     get '/' do
-        erb :'index'
+        if  !self.logged_in?
+            erb :'index'
+        else
+            redirect "/users/#{session[:user_id]}"
+        end
     end
 
     get '/login' do
