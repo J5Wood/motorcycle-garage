@@ -29,5 +29,7 @@ class UsersController < ApplicationController
         end
         redirect "/users/#{@user.id}"
     end
+
+    
         
 end
