@@ -12,7 +12,6 @@ class ApplicationController < Sinatra::Base
     end
 
     post '/login' do
-        binding.pry
         user = User.find_by(name: params[:username])
 
         if !!user && user.authenticate(params[:password])
@@ -23,8 +22,24 @@ class ApplicationController < Sinatra::Base
         end
     end
 
-    get 'signup' do
+    get '/signup' do
         erb :'signup'
     end
 
+    post '/signup' do
+        if !User.find_by(name: params[:username])
+            user = User.create(name: params[:username], password: params[:password])
+            session[:user_id] = user.id
+            redirect "/users/#{user.id}"
+        else
+            redirect "/signup"
+        end
+    end
+
+
+    helpers do
+        def logged_in?
+          !!session[:user_id]
+        end
+    end
 end
