@@ -1,0 +1,41 @@
+<h1>Edit Motorcycle</h1>
+
+<h3>
+    <form method="POST" action="/motorcycles/<%= @motorcycle.id %>">
+        <input type="hidden" name="_method" value="patch">
+
+        <label for="year">Model Year: </label>
+        <input type="number" name="year" id="year" value="<%= @motorcycle.year %>">
+
+        <label for="name">Model Name: </label>
+        <input type="text" name="name" id="name" value="<%= @motorcycle.name %>">
+        <br>
+        <br>
+
+        <% @brands.each do |brand| %>
+            <% if @motorcycle.brand == brand %>
+                <input type="radio" name="brand" id="<%= brand.name %>" value="<%= brand.name %>" checked>
+                <label for="<%= brand.name %>"><%= brand.name %></label>
+                <br>
+            <% else %>
+                <input type="radio" name="brand" id="<%= brand.name %>" value="<%= brand.name %>">
+                <label for="<%= brand.name %>"><%= brand.name %></label>
+                <br>
+            <% end %>
+        <% end %>
+        <label for="new_brand">Create New Brand: </label>
+        <input type="text" name="new_brand" id="brand" >
+        
+        <br>
+        <br>
+        <label for="color">Model Color: </label>
+        <input type="text" name="color" id="color" value="<%= @motorcycle.color %>">
+        
+        <br>
+
+        <label for="mileage">Mileage: </label>
+        <input type="number" name="mileage" id="mileage" value="<%= @motorcycle.mileage %>">
+        
+        <input type="submit" value="Submit">
+    </form>
+</h3>
