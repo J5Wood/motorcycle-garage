@@ -1,0 +1,35 @@
+<h1>Build your motorcycle.</h1>
+
+
+<h3>
+    <form method="POST" action="/motorcycles">
+
+        <label for="year">Model Year: </label>
+        <input type="number" name="year" id="year" >
+
+        <label for="name">Model Name: </label>
+        <input type="text" name="name" id="name" >
+        <br>
+        <br>
+
+        <% @brands.each do |brand| %>
+            <input type="radio" name="brand" id="<%= brand.name %>" value="<%= brand.name %>">
+            <label for="<%= brand.name %>"><%= brand.name %></label>
+            <br>
+        <% end %>
+        <label for="new_brand">Create New Brand: </label>
+        <input type="text" name="new_brand" id="brand" >
+        
+        <br>
+        <br>
+        <label for="color">Model Color: </label>
+        <input type="text" name="color" id="color" >
+        
+        <br>
+
+        <label for="mileage">Mileage: </label>
+        <input type="number" name="mileage" id="mileage" >
+        
+        <input type="submit" value="Submit">
+    </form>
+</h3>
