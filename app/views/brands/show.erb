@@ -1,1 +1,17 @@
-<h1>brands show page</h1>
+<h1><%= @brand.name %></h1>
+<h3><a href="/brands">Return to all Brands</a></h3>
+<br>
+<br>
+<h2>Currently garaged <%= @brand.name.downcase %>s: </h2>
+
+<% @brand.motorcycles.each do |bike| %>
+    <h3>
+    <a href="/motorcycles/<%= bike.id %>">
+    <%= bike.name %>
+    </a>
+    </h3>
+    <br>
+<% end %>
+<h3>
+<a href="/brands/<%= @brand.id %>/edit">Edit Brand</a>
+</h3>

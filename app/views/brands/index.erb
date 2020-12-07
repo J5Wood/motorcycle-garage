@@ -1,0 +1,15 @@
+<h1>Brands:</h1>
+
+<h2>
+<% @brands.each do |brand| %>
+    <a href="/brands/<%= brand.id %>">
+    <%= brand.name %>
+    </a>
+    <br>
+<% end %>
+</h2>
+<br>
+<br>
+<h3>
+<a href="/brands/new">Create New Brand</a>
+</h3>
