@@ -1,16 +1,19 @@
 <h1><%= @user.name %>'s Garage</h1>
 
-<h2>Your bikes:</h2>
-<% @user.motorcycles.each do |mc| %>
-<h3>
-    <%= mc.year %> <%= mc.brand %> <%= mc.name %> <br>
-    Miles: <%= mc.mileage %>
-    <br>
-</h3>
-<% end %>
-
-
 <h4>
+    <a href="/motorcycles">Motorcycles</a>
+    <a href="/brands">Brands</a>
     <a href="/users/<%= @user.id %>/edit">Edit Profile</a>
     <a href="/logout">Log Out</a>
 </h4>
+
+<h2>Your Motorcycles: </h2>
+<% @user.motorcycles.each do |bike| %>
+<h3>
+    <%= bike.year %> <%= bike.brand %> <%= bike.name %> <br>
+    Miles: <%= bike.mileage %>
+    <br>
+</h3>
+<% end %>
+<h3>Add a new bike to your garage <a href="/motorcycles/new">Here</a></h3>
+
