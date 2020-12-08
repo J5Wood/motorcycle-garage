@@ -2,10 +2,11 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
     set :session_secret, "Change_this_super_secret_password"
     enable :sessions
+   
 
     get '/' do
         if  !self.logged_in?
-            erb :'index'
+            erb :'index', :layout => false
         else
             redirect "/users/home"
         end
@@ -13,7 +14,7 @@ class ApplicationController < Sinatra::Base
 
     get '/login' do
         if  !self.logged_in?
-            erb :'login'
+            erb :'login', :layout => false
         else
             redirect "/users/home"
         end
@@ -32,7 +33,7 @@ class ApplicationController < Sinatra::Base
 
     get '/signup' do
         if !self.logged_in?
-            erb :'signup'
+            erb :'signup', :layout => false
         else
             redirect "users/home"
         end
