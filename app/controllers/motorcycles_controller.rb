@@ -11,19 +11,16 @@ class MotorcyclesController < ApplicationController
     end
 
     post '/motorcycles' do
-        if params[:year].to_i.between?(1885, DateTime.now.year + 1) && !params[:name].empty?
+        if params[:year].to_i.between?(1885, DateTime.now.year + 1) && !params[:name].empty?  #Verify proper year and year format
             motorcycle = Motorcycle.new(name: params[:name].upcase, year: params[:year].to_i)
             motorcycle.user = User.find_by_id(session[:user_id])
         else
             redirect '/motorcycles/new'
         end
-        if !params[:color].empty?
-            motorcycle.color = params[:color]
-        end
-        if !params[:mileage].empty?
-            motorcycle.mileage = params[:mileage]
-        end
-        if !params[:new_brand].empty?
+        
+        if params[:new_brand].empty? && !params[:brand]
+            redirect '/motorcycles/new'
+        elsif !params[:new_brand].empty?
             brand = Brand.find_by(name: params[:brand])      #Make work with multiple words
             if !brand
                 motorcycle.brand = Brand.create(name: params[:new_brand].downcase.capitalize)
@@ -33,6 +30,15 @@ class MotorcyclesController < ApplicationController
         elsif !!params[:brand]
             motorcycle.brand = Brand.find_by(name: params[:brand])
         end
+
+        if !params[:color].empty?
+            motorcycle.color = params[:color]
+        end
+
+        if !params[:mileage].empty?
+            motorcycle.mileage = params[:mileage]
+        end
+
         motorcycle.save
         redirect "/motorcycles/#{motorcycle.id}" 
     end
@@ -43,6 +49,7 @@ class MotorcyclesController < ApplicationController
     end
 
     get '/motorcycles/:id/edit' do
+        binding.pry
         @motorcycle = Motorcycle.find_by_id(params[:id])
         if session[:user_id] == @motorcycle.user.id
             @brands = Brand.all
