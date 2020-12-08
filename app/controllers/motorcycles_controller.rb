@@ -1,13 +1,21 @@
 class MotorcyclesController < ApplicationController
 
     get '/motorcycles' do
-        @motorcycles = Motorcycle.all
-        erb :'motorcycles/index'
+        if self.logged_in?
+            @motorcycles = Motorcycle.all
+            erb :'motorcycles/index'
+        else
+            redirect '/'
+        end
     end
 
     get '/motorcycles/new' do
-        @brands = Brand.all
-        erb :'motorcycles/new'
+        if self.logged_in?
+            @brands = Brand.all
+            erb :'motorcycles/new'
+        else
+            redirect '/'
+        end
     end
 
     post '/motorcycles' do
@@ -17,7 +25,7 @@ class MotorcyclesController < ApplicationController
         else
             redirect '/motorcycles/new'
         end
-        
+
         if params[:new_brand].empty? && !params[:brand]
             redirect '/motorcycles/new'
         elsif !params[:new_brand].empty?
@@ -44,18 +52,25 @@ class MotorcyclesController < ApplicationController
     end
 
     get '/motorcycles/:id' do
-        @motorcycle = Motorcycle.find_by_id(params[:id])
-        erb :'motorcycles/show'
+        if self.logged_in?
+            @motorcycle = Motorcycle.find_by_id(params[:id])
+            erb :'motorcycles/show'
+        else
+            redirect '/'
+        end
     end
 
     get '/motorcycles/:id/edit' do
-        binding.pry
-        @motorcycle = Motorcycle.find_by_id(params[:id])
-        if session[:user_id] == @motorcycle.user.id
-            @brands = Brand.all
-            erb :'motorcycles/edit'
+        if self.logged_in?
+            @motorcycle = Motorcycle.find_by_id(params[:id])
+            if session[:user_id] == @motorcycle.user.id
+                @brands = Brand.all
+                erb :'motorcycles/edit'
+            else
+                redirect "/motorcycles/#{@motorcycle.id}"
+            end
         else
-            redirect "/motorcycles/#{@motorcycle.id}"
+            redirect '/'
         end
     end 
 
