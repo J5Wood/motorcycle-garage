@@ -102,4 +102,23 @@ class MotorcyclesController < ApplicationController
         redirect "/motorcycles/#{motorcycle.id}"
     end
 
+    get '/motorcycles/:id/delete' do
+        @motorcycle = Motorcycle.find_by_id(params[:id])
+        if @motorcycle.user_id.to_i == session[:user_id]
+            erb :'motorcycles/delete'
+        else
+            redirect "/motorcycles/#{params[:id]}"
+        end
+    end
+
+    delete '/motorcycles/:id' do
+        motorcycle = Motorcycle.find_by_id(params[:id])
+        if motorcycle.user_id.to_i == session[:user_id]
+            motorcycle.destroy
+            redirect '/users/home'
+        else
+            redirect "/motorcycles/#{motorcycle.id}"
+        end
+    end
+
 end

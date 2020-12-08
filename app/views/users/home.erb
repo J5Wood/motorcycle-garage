@@ -6,7 +6,8 @@
 <h3>
     <%= bike.year %> <a href="/brands/<%= bike.brand.id %>"><%= bike.brand.name %></a> <a href="/motorcycles/<%= bike.id %>"><%= bike.name %></a> <br>
     Miles: <%= bike.mileage %>
-    <a href="/motorcycles/<%= bike.id %>/edit">Update / Edit</a>
+    <a href="/motorcycles/<%= bike.id %>/edit">Edit</a>
+    <a href="/motorcycles/<%= bike.id %>/delete">Delete</a>
     <br>
 </h3>
 <% end %>
