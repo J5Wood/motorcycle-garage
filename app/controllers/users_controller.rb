@@ -32,6 +32,19 @@ class UsersController < ApplicationController
         end
     end
 
+    get '/users/:id/delete' do
+        if self.logged_in?
+            @user = User.find_by_id(session[:user_id])
+            if @user.id == params[:id].to_i
+                erb :'users/delete'
+            else
+                redirect "/users/home"
+            end
+        else
+            redirect "/users/home"
+        end
+    end
+
     patch '/users/:id' do
         @user = User.find_by_id(params[:id])
         if params[:password_one] != params[:password_two]
@@ -51,4 +64,16 @@ class UsersController < ApplicationController
         end
         redirect "/users/home"
     end  
+
+    delete '/users/:id' do
+        user = User.find_by_id(params[:id])
+        Motorcycle.all.each do |bike|
+            if bike.user_id.to_i == user.id
+                bike.destroy
+            end
+        end
+        user.destroy
+        session.clear
+        redirect "/"
+    end
 end
