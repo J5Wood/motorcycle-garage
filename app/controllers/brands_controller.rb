@@ -1,8 +1,12 @@
 class BrandsController < ApplicationController
 
     get '/brands' do
-        @brands = Brand.all
-        erb :'brands/index'
+        if self.logged_in?
+            @brands = Brand.all
+            erb :'brands/index'
+        else
+            redirect '/'
+        end
     end
 
     post '/brands' do
@@ -26,17 +30,29 @@ class BrandsController < ApplicationController
     end
 
     get '/brands/new' do
-        erb :'brands/new'
+        if self.logged_in?
+            erb :'brands/new'
+        else
+            redirect '/'
+        end
     end
 
     get '/brands/:id' do
-        @brand = Brand.find_by_id(params[:id])
-        erb :'brands/show'
+        if self.logged_in?
+            @brand = Brand.find_by_id(params[:id])
+            erb :'brands/show'
+        else
+            redirect '/'
+        end
     end
 
     get '/brands/:id/edit' do
-        @brand = Brand.find_by_id(params[:id])
-        erb :'brands/edit'
+        if self.logged_in?
+            @brand = Brand.find_by_id(params[:id])
+            erb :'brands/edit'
+        else
+            redirect '/'
+        end
     end
 
     patch '/brands/:id' do
