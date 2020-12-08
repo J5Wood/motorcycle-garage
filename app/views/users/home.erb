@@ -1,0 +1,20 @@
+<h1><%= @user.name %>'s Garage</h1>
+
+<h4>
+    <a href="/motorcycles">Motorcycles</a>
+    <a href="/brands">Brands</a>
+    <a href="/logout">Log Out</a>
+</h4>
+
+<h2>Your Motorcycles: </h2>
+<% @user.motorcycles.each do |bike| %>
+<h3>
+    <%= bike.year %> <a href="/brands/<%= bike.brand.id %>"><%= bike.brand.name %></a> <a href="/motorcycles/<%= bike.id %>"><%= bike.name %></a> <br>
+    Miles: <%= bike.mileage %>
+    <br>
+</h3>
+<% end %>
+<h3>Add a new bike to your garage <a href="/motorcycles/new">Here</a></h3>
+<br>
+
+<h3><a href="/users/<%= @user.id %>/edit">Edit Profile</a></h3>

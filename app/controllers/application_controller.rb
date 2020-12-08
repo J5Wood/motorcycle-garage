@@ -7,7 +7,7 @@ class ApplicationController < Sinatra::Base
         if  !self.logged_in?
             erb :'index'
         else
-            redirect "/users/#{session[:user_id]}"
+            redirect "/users/home"
         end
     end
 
@@ -15,7 +15,7 @@ class ApplicationController < Sinatra::Base
         if  !self.logged_in?
             erb :'login'
         else
-            redirect "/users/#{session[:user_id]}"
+            redirect "/users/home"
         end
     end
 
@@ -34,7 +34,7 @@ class ApplicationController < Sinatra::Base
         if !self.logged_in?
             erb :'signup'
         else
-            redirect "users/#{session[:user_id]}"
+            redirect "users/home"
         end
     end
 

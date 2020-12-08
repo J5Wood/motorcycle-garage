@@ -1,12 +1,22 @@
 class UsersController < ApplicationController
 
+
+    get '/users/home' do
+        if self.logged_in? 
+            @user = User.find_by_id(session[:user_id])
+            erb :'users/home'
+        else
+            redirect '/'
+        end
+    end
+
     get '/users/:id' do
         if self.logged_in?
-            @user = User.find_by_id(session[:user_id])
-            if @user.id == params[:id].to_i
-                erb :'users/show'
+            @user = User.find_by_id(params[:id])
+            if @user.id == session[:user_id]
+                redirect '/users/home'
             else
-                redirect "/users/#{session[:user_id]}"
+                erb :'users/show'
             end
         else
             redirect '/'
@@ -39,6 +49,6 @@ class UsersController < ApplicationController
             @user.password = params[:password_one]
             @user.save
         end
-        redirect "/users/#{@user.id}"
+        redirect "/users/home"
     end  
 end
