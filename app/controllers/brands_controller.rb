@@ -70,4 +70,18 @@ class BrandsController < ApplicationController
         redirect "/brands/#{brand.id}"
     end
 
+    get '/brands/:id/delete' do
+        @brand = Brand.find_by_id(params[:id])
+        if @brand.motorcycles.count == 0
+            erb :'brands/delete'
+        else
+            redirect "/brands/#{@brand.id}"
+        end
+    end
+
+    delete '/brands/:id' do
+        Brand.find_by_id(params[:id]).destroy
+        redirect '/brands'
+    end
+
 end
