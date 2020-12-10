@@ -12,6 +12,13 @@
         <th><a href="/logout">Logout</a></th>
       </tr>
     </table>
+<br>
+    <% flash.keys.each do |type| %>
+      <div data-alert class="flash <%= type %> alert-box radius" style="color: white; background-color: red;">
+        <%= flash[type] %>
+        <a href="" class="close">&times;</a>
+      </div>
+    <% end %>
 
     <%= yield %>
     

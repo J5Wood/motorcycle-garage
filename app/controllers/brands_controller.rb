@@ -11,12 +11,14 @@ class BrandsController < ApplicationController
 
     post '/brands' do
         if params[:name].empty?
+            flash[:message] = "You Must Include a Brand Name"
             redirect '/brands/new'
         end
         brand = Brand.find_by(name: params[:name])
         if !brand
             brand = Brand.create(name: params[:name])
         else
+            flash[:message] = "Brand Already Exists"
             redirect "/brands/#{brand.id}"
         end
         if !params[:year].empty?
@@ -71,11 +73,16 @@ class BrandsController < ApplicationController
     end
 
     get '/brands/:id/delete' do
-        @brand = Brand.find_by_id(params[:id])
-        if @brand.motorcycles.count == 0
-            erb :'brands/delete'
+        if self.logged_in?
+            @brand = Brand.find_by_id(params[:id])
+            if @brand.motorcycles.count == 0
+                erb :'brands/delete'
+            else
+                flash[:message] = "Brand Still Has Motorcycles, Can't Delete"
+                redirect "/brands/#{@brand.id}"
+            end
         else
-            redirect "/brands/#{@brand.id}"
+            redirect '/'
         end
     end
 

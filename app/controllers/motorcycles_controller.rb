@@ -23,10 +23,12 @@ class MotorcyclesController < ApplicationController
             motorcycle = Motorcycle.new(name: params[:name].upcase, year: params[:year].to_i)
             motorcycle.user = User.find_by_id(session[:user_id])
         else
+            flash[:message] = "You Must Enter a Name and Valid Year"
             redirect '/motorcycles/new'
         end
 
         if params[:new_brand].empty? && !params[:brand]
+            flash[:message] = "Please Select or Create a Brand"
             redirect '/motorcycles/new'
         elsif !params[:new_brand].empty?
             brand = Brand.find_by(name: params[:brand])      #Make work with multiple words
@@ -67,7 +69,8 @@ class MotorcyclesController < ApplicationController
                 @brands = Brand.all
                 erb :'motorcycles/edit'
             else
-                redirect "/motorcycles/#{@motorcycle.id}"
+                flash[:message] = "You May Only Alter Your Own Motorcycle"
+                redirect "/motorcycles"
             end
         else
             redirect '/'
@@ -103,22 +106,22 @@ class MotorcyclesController < ApplicationController
     end
 
     get '/motorcycles/:id/delete' do
-        @motorcycle = Motorcycle.find_by_id(params[:id])
-        if @motorcycle.user_id.to_i == session[:user_id]
-            erb :'motorcycles/delete'
+        if self.logged_in?
+            @motorcycle = Motorcycle.find_by_id(params[:id])
+            if @motorcycle.user_id.to_i == session[:user_id]
+                erb :'motorcycles/delete'
+            else
+                flash[:message] = "You May Only Delete Your Own Motorcycle"
+                redirect "/motorcycles/#{params[:id]}"
+            end
         else
-            redirect "/motorcycles/#{params[:id]}"
+            redirect '/'
         end
     end
 
     delete '/motorcycles/:id' do
-        motorcycle = Motorcycle.find_by_id(params[:id])
-        if motorcycle.user_id.to_i == session[:user_id]
-            motorcycle.destroy
-            redirect '/users/home'
-        else
-            redirect "/motorcycles/#{motorcycle.id}"
-        end
+        Motorcycle.find_by_id(params[:id]).destroy
+        redirect '/users/home'
     end
 
 end
