@@ -2,7 +2,7 @@ class MotorcyclesController < ApplicationController
 
     get '/motorcycles' do
         if self.logged_in?
-            @motorcycles = Motorcycle.all
+            @motorcycles = Motorcycle.all.sort_by{|mc| mc.brand.name}
             erb :'motorcycles/index'
         else
             redirect '/'

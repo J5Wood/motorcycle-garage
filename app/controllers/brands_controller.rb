@@ -2,7 +2,7 @@ class BrandsController < ApplicationController
 
     get '/brands' do
         if self.logged_in?
-            @brands = Brand.all
+            @brands = Brand.all.sort_by{|brand| brand.name }
             erb :'brands/index'
         else
             redirect '/'
