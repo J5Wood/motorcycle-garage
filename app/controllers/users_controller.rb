@@ -70,11 +70,6 @@ class UsersController < ApplicationController
 
     delete '/users/:id' do
         user = User.find_by_id(params[:id])
-        Motorcycle.all.each do |bike|
-            if bike.user_id.to_i == user.id
-                bike.destroy
-            end
-        end
         user.destroy
         session.clear
         redirect "/"
