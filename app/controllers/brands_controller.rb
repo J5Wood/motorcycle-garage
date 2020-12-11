@@ -11,16 +11,22 @@ class BrandsController < ApplicationController
             flash[:message] = "You Must Include a Brand Name"
             redirect '/brands/new'
         end
+
         brand = Brand.find_by(name: params[:name])
         if !brand
-            brand = Brand.create(name: params[:name])
+            brand = Brand.new(name: params[:name])
         else
             flash[:message] = "Brand Already Exists"
             redirect "/brands/#{brand.id}"
         end
-        if !params[:year].empty?
+
+        if valid_year?(params[:year])
             brand.year = params[:year]
+        elsif !params[:year].empty?
+            flash[:message] = "Must Enter a Valid Year"
+            redirect "/brands/new"
         end
+
         if !params[:headquarters].empty?
             brand.headquarters = params[:headquarters]
         end
@@ -50,8 +56,11 @@ class BrandsController < ApplicationController
         if !params[:name].empty?
             brand.name = params[:name]
         end
-        if !params[:year].empty?
+        if valid_year?(params[:year])
             brand.year = params[:year]
+        elsif !params[:year].empty?
+            flash[:message] = "You Must Enter a Valid Year"
+            redirect "/brands/#{brand.id}/edit"
         end
         if !params[:headquarters].empty?
             brand.headquarters = params[:headquarters]
