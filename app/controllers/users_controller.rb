@@ -37,9 +37,9 @@ class UsersController < ApplicationController
         end
 
         # Check for new name entry, then check if name is taken
-        if !params[:username].empty? && params[:username] != @user.name
-            if !User.find_by(name: params[:username])
-                @user.name = params[:username]
+        if !params[:username].empty? && params[:username] != @user.username
+            if !User.find_by(username: params[:username])
+                @user.username = params[:username]
                 @user.save
             else
                 flash[:message] = "Name Already Taken, Please Try Another"

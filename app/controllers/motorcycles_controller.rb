@@ -85,7 +85,7 @@ class MotorcyclesController < ApplicationController
             motorcycle.mileage = params[:mileage]
         end
         if !params[:new_brand].empty?
-            brand = Brand.find_by(name: params[:brand])      #Make work with multiple words
+            brand = Brand.find_by(name: params[:brand])
             if !brand
                 motorcycle.brand = Brand.create(name: params[:new_brand].downcase.capitalize)
             else

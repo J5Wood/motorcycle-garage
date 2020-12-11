@@ -1,4 +1,4 @@
-<h1><%= @user.name %>'s Garage</h1>
+<h1><%= @user.username %>'s Garage</h1>
 <h2>
     <% @user.motorcycles.each do |bike| %>
         <%= bike.year %> <a href="/brands/<%= bike.brand.id %>"><%= bike.brand.name %></a> <a href="/motorcycles/<%= bike.id %>"><%= bike.name %></a>

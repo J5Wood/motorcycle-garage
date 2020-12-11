@@ -3,7 +3,7 @@
 <form method="POST" action="/users/<%= @user.id %>" >
     <input type="hidden" name="_method" value="patch">
     <label for="username">Username: </label>
-    <input type="text" name="username" id="username" value="<%= @user.name %>"><br>
+    <input type="text" name="username" id="username" value="<%= @user.username %>"><br>
     <label for="password_one">Enter new Password: </label>
     <input type="password" name="password_one" id="password_one"><br>
     <label for="password_two">Re-enter new Password: </label>

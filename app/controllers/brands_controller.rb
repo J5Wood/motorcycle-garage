@@ -66,7 +66,7 @@ class BrandsController < ApplicationController
         if @brand.motorcycles.count == 0
             erb :'brands/delete'
         else
-            flash[:message] = "Brand Still Has Motorcycles, Can't Delete"
+            flash[:message] = "Brand Still Has Motorcycles Garaged, Can't Delete"
             redirect "/brands/#{@brand.id}"
         end
     end
