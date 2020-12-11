@@ -3,6 +3,7 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
     set :session_secret, "Change_this_super_secret_password"
     enable :sessions
+    set :show_exceptions, :after_handler
     register Sinatra::Flash
    
 
@@ -56,6 +57,14 @@ class ApplicationController < Sinatra::Base
         redirect '/'
     end
 
+    not_found do
+        status 404
+        erb :'failure'
+    end
+
+    error do
+        erb :'failure'
+      end
 
     helpers do
 

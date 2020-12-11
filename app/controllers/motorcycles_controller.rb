@@ -52,7 +52,13 @@ class MotorcyclesController < ApplicationController
     get '/motorcycles/:id' do
         self.redirect_if_not_logged_in
         @motorcycle = Motorcycle.find_by_id(params[:id])
-        erb :'motorcycles/show'
+        
+        #redirect for bad route
+        if !@motorcycle
+            redirect '/motorcycles'
+        else
+            erb :'motorcycles/show'
+        end
     end
 
     get '/motorcycles/:id/edit' do
@@ -75,6 +81,7 @@ class MotorcyclesController < ApplicationController
             flash[:message] = "Please Enter a Valid Year"
             redirect "/motorcycles/#{motorcycle.id}/edit"
         end
+
         if !params[:name].empty?
             motorcycle.name = params[:name]
         end
@@ -84,6 +91,7 @@ class MotorcyclesController < ApplicationController
         if !params[:mileage].empty?
             motorcycle.mileage = params[:mileage]
         end
+
         if !params[:new_brand].empty?
             brand = Brand.find_by(name: params[:brand])
             if !brand

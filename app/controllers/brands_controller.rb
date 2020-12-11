@@ -42,7 +42,13 @@ class BrandsController < ApplicationController
     get '/brands/:id' do
         self.redirect_if_not_logged_in
         @brand = Brand.find_by_id(params[:id])
-        erb :'brands/show'
+
+        #redirect for bad route
+        if !@brand
+            redirect '/brands'
+        else
+            erb :'brands/show'
+        end
     end
 
     get '/brands/:id/edit' do
@@ -56,12 +62,14 @@ class BrandsController < ApplicationController
         if !params[:name].empty?
             brand.name = params[:name]
         end
+
         if valid_year?(params[:year])
             brand.year = params[:year]
         elsif !params[:year].empty?
             flash[:message] = "You Must Enter a Valid Year"
             redirect "/brands/#{brand.id}/edit"
         end
+
         if !params[:headquarters].empty?
             brand.headquarters = params[:headquarters]
         end

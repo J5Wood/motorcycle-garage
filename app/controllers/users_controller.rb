@@ -10,8 +10,12 @@ class UsersController < ApplicationController
         self.redirect_if_not_logged_in
         @user = User.find_by_id(params[:id])
 
+        #redirect for bad route
+        if !@user
+            redirect '/users/home'
+
         #Send to home page for self, otherwise user show page.
-        if @user.id == session[:user_id]
+        elsif @user.id == session[:user_id]
             redirect '/users/home'
         else
             erb :'users/show'
@@ -36,7 +40,7 @@ class UsersController < ApplicationController
             redirect "/users/#{@user.id}/edit"
         end
 
-        # Check for new name entry, then check if name is taken
+        # Check for new name entry & change, then check if name is taken
         if !params[:username].empty? && params[:username] != @user.username
             if !User.find_by(username: params[:username])
                 @user.username = params[:username]
