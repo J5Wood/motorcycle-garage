@@ -58,8 +58,20 @@ class ApplicationController < Sinatra::Base
 
 
     helpers do
+
         def logged_in?
           !!session[:user_id]
         end
+
+        def redirect_if_not_logged_in
+            if !session[:user_id]
+                redirect '/'
+            end
+        end
+
+        def valid_year?(year)
+            year.to_i.between?(1885, DateTime.now.year + 1)      
+        end
+
     end
 end

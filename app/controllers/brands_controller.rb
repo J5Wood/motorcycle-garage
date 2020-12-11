@@ -1,12 +1,9 @@
 class BrandsController < ApplicationController
 
     get '/brands' do
-        if self.logged_in?
-            @brands = Brand.all.sort_by{|brand| brand.name }
-            erb :'brands/index'
-        else
-            redirect '/'
-        end
+        self.redirect_if_not_logged_in
+        @brands = Brand.all.sort_by{|brand| brand.name }
+        erb :'brands/index'
     end
 
     post '/brands' do
@@ -32,29 +29,20 @@ class BrandsController < ApplicationController
     end
 
     get '/brands/new' do
-        if self.logged_in?
-            erb :'brands/new'
-        else
-            redirect '/'
-        end
+        self.redirect_if_not_logged_in
+        erb :'brands/new'
     end
 
     get '/brands/:id' do
-        if self.logged_in?
-            @brand = Brand.find_by_id(params[:id])
-            erb :'brands/show'
-        else
-            redirect '/'
-        end
+        self.redirect_if_not_logged_in
+        @brand = Brand.find_by_id(params[:id])
+        erb :'brands/show'
     end
 
     get '/brands/:id/edit' do
-        if self.logged_in?
-            @brand = Brand.find_by_id(params[:id])
-            erb :'brands/edit'
-        else
-            redirect '/'
-        end
+        self.redirect_if_not_logged_in
+        @brand = Brand.find_by_id(params[:id])
+        erb :'brands/edit'
     end
 
     patch '/brands/:id' do
@@ -73,16 +61,13 @@ class BrandsController < ApplicationController
     end
 
     get '/brands/:id/delete' do
-        if self.logged_in?
-            @brand = Brand.find_by_id(params[:id])
-            if @brand.motorcycles.count == 0
-                erb :'brands/delete'
-            else
-                flash[:message] = "Brand Still Has Motorcycles, Can't Delete"
-                redirect "/brands/#{@brand.id}"
-            end
+        self.redirect_if_not_logged_in
+        @brand = Brand.find_by_id(params[:id])
+        if @brand.motorcycles.count == 0
+            erb :'brands/delete'
         else
-            redirect '/'
+            flash[:message] = "Brand Still Has Motorcycles, Can't Delete"
+            redirect "/brands/#{@brand.id}"
         end
     end
 
