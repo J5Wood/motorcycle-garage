@@ -1,7 +1,7 @@
 
-User.create(username: "Joe", password: "password")
-User.create(username: "Moe", password: "password")
-User.create(username: "Toe", password: "password")
+User.create(username: "Joe", password: "secret_password")
+User.create(username: "Moe", password: "secret_password")
+User.create(username: "Toe", password: "secret_password")
 
 
 Brand.create(name: "Honda", year: 1955, headquarters: "Japan")
