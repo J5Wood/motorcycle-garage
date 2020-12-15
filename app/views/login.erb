@@ -7,6 +7,13 @@
   </head>
   <body class="body">
 
+    <% flash.keys.each do |type| %>
+        <div data-alert class="flash <%= type %> alert-box radius" style="color: white; background-color: red;">
+        <%= flash[type] %>
+        <a href="" class="close">&times;</a>
+        </div>
+    <% end %>
+
     <h1 class="header">LOGIN</h1>
     <h3><a href="/">Back</a></h3>
     <br>

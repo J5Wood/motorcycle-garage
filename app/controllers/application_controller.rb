@@ -31,6 +31,7 @@ class ApplicationController < Sinatra::Base
             session[:user_id] = user.id
             redirect "/users/#{user.id}"
         else
+            flash[:message] = "Incorrect Username or Password"
             redirect '/login'
         end
     end
@@ -48,7 +49,11 @@ class ApplicationController < Sinatra::Base
             user = User.create(username: params[:username], password: params[:password])
             session[:user_id] = user.id
             redirect "/users/#{user.id}"
+        elsif !!User.find_by(username: params[:username])
+            flash[:message] = "Username Already Exists"
+            redirect "/signup"
         else
+            flash[:message] = "Must Include Username and Password"
             redirect "/signup"
         end
     end

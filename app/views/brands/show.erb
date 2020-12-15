@@ -3,7 +3,7 @@
 <h2>Headquarters: <%= @brand.headquarters %></h2>
 <h4><a href="/brands/<%= @brand.id %>/edit">Edit Brand</a> &#8226; <a href="/brands/<%= @brand.id %>/delete">Delete Brand</a></h4>
 <br>
-<h2>Currently garaged <%= @brand.name.downcase %>s: </h2>
+<h2>Currently garaged <%= @brand.name.downcase.capitalize %>s: </h2>
 
 <% @brand.motorcycles.each do |bike| %>
     <h3>
