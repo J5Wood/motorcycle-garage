@@ -1,4 +1,4 @@
-<h1>GARAGED MOTORCYCLES</h1>
+<h1 class="header">GARAGED MOTORCYCLES</h1>
 
 <% @motorcycles.each do |bike| %>
     <h2><%= bike.year %> <% if !!bike.brand %><a href="/brands/<%= bike.brand.id %>"><%= bike.brand.name %></a><% end %> <a href="/motorcycles/<%= bike.id %>"><%= bike.name %></a></h2>

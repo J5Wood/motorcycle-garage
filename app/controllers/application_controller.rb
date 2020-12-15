@@ -1,5 +1,7 @@
 class ApplicationController < Sinatra::Base
 
+
+    set :public_dir, "../motorcycle-garage/app"
     set :views, 'app/views'
     set :session_secret, "Change_this_super_secret_password"
     enable :sessions

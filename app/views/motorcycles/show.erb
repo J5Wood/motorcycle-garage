@@ -1,4 +1,4 @@
-<h1><%= @motorcycle.year %> <% if !!@motorcycle.brand %><a href="../brands/<%= @motorcycle.brand.id %>"><%= @motorcycle.brand.name %></a><% end %> <%= @motorcycle.name %></h1>
+<h1 class="header"><%= @motorcycle.year %> <% if !!@motorcycle.brand %><a href="../brands/<%= @motorcycle.brand.id %>"><%= @motorcycle.brand.name %></a><% end %> <%= @motorcycle.name %></h1>
 <h2>
 <%= @motorcycle.color %><br>
 Miles: <%= @motorcycle.mileage %><br>

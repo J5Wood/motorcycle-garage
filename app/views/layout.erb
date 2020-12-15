@@ -1,18 +1,24 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset = "UTF-8">
     <title>Motorcycle Garage</title>
+    <link rel="stylesheet" href="/css/stylesheet.css" type="text/css"/>
   </head>
-  <body>
-    <table style="width:100%">
-      <tr>
-        <th><a href="/users/home">Home</a></th>
-        <th><a href="/motorcycles">Motorcycles</a></th>
-        <th><a href="/brands">Brands</a></th>
-        <th><a href="/logout">Logout</a></th>
-      </tr>
-    </table>
-<br>
+  <body class="body">
+
+    <nav class="nav">
+      <br>
+      <table style="width:100%">
+        <tr>
+          <th><a href="/users/home">Home</a></th>
+          <th><a href="/motorcycles">Motorcycles</a></th>
+          <th><a href="/brands">Brands</a></th>
+          <th><a href="/logout">Logout</a></th>
+        </tr>
+      </table>
+      <br>
+    </nav>
     <% flash.keys.each do |type| %>
       <div data-alert class="flash <%= type %> alert-box radius" style="color: white; background-color: red;">
         <%= flash[type] %>

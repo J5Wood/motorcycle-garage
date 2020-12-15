@@ -1,4 +1,4 @@
-<h1><%= @user.username %>'s Garage</h1>
+<h1 class="header"><%= @user.username %>'s Garage</h1>
 
 
 <h2>Your Motorcycles: </h2>
@@ -7,6 +7,7 @@
     <%= bike.year %> <a href="/brands/<%= bike.brand.id %>"><%= bike.brand.name %></a> <a href="/motorcycles/<%= bike.id %>"><%= bike.name %></a> <br>
     Miles: <%= bike.mileage %>
     <a href="/motorcycles/<%= bike.id %>/edit">Edit</a>
+    &#8226;
     <a href="/motorcycles/<%= bike.id %>/delete">Delete</a>
     <br>
 </h3>

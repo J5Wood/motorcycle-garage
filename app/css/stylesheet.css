@@ -1,0 +1,40 @@
+body {
+    background-color: gray;
+}
+
+nav {
+    color:brown;
+    background-color: black;
+}
+
+h1, header {
+    text-align: center;
+    color: white;
+    background-color: black;
+}
+
+a:link {
+    color: black;
+
+}
+
+a:visited {
+    color: black;
+}
+
+nav a:link {
+    color: coral;
+
+}
+
+nav a:visited {
+    color: coral;
+}
+
+h1 a:link {
+    color: white;
+}
+
+h1 a:visited {
+    color: white;
+}
