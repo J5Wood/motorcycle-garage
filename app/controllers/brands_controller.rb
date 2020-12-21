@@ -76,18 +76,27 @@ class BrandsController < ApplicationController
     get '/brands/:id/delete' do
         self.redirect_if_not_logged_in
         self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
+        
         @brand = Brand.find_by_id(params[:id])
-        if @brand.motorcycles.count == 0
-            erb :'brands/delete'
-        else
-            flash[:message] = "Brand Still Has Motorcycles Garaged, Can't Delete"
-            redirect "/brands/#{@brand.id}"
-        end
+        redirect_if_brand_has_motorcycles(@brand)
+        erb :'brands/delete'
     end
 
     delete '/brands/:id' do
-        Brand.find_by_id(params[:id]).destroy
+        brand = Brand.find_by_id(params[:id])
+        redirect_if_brand_has_motorcycles(brand)
+        brand.destroy
         redirect '/brands'
+    end
+
+    helpers do
+
+        def redirect_if_brand_has_motorcycles(brand)
+            if brand.motorcycles.count != 0
+                flash[:message] = "Brand Still Has Motorcycles Garaged, Can't Delete"
+                redirect '/brands'
+            end
+        end
     end
 
 end

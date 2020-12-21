@@ -73,6 +73,8 @@ class MotorcyclesController < ApplicationController
 
     patch '/motorcycles/:id' do
         motorcycle = Motorcycle.find_by_id(params[:id])
+        redirect_if_not_owner(motorcycle)
+        
         if valid_year?(params[:year])
             motorcycle.year = params[:year]     
         elsif !params[:year].empty?
@@ -108,7 +110,11 @@ class MotorcyclesController < ApplicationController
         self.redirect_if_not_logged_in
         self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
         
+        # change redirect
+
         @motorcycle = Motorcycle.find_by_id(params[:id])
+        
+
         if @motorcycle.user_id.to_i == session[:user_id]
             erb :'motorcycles/delete'
         else
@@ -118,8 +124,23 @@ class MotorcyclesController < ApplicationController
     end
 
     delete '/motorcycles/:id' do
-        Motorcycle.find_by_id(params[:id]).destroy
+        motorcycle = Motorcycle.find_by_id(params[:id])
+        redirect_if_not_owner(motorcycle)
+        motorcycle.destroy
         redirect '/users/home'
+    end
+
+
+    # PROTECT ROUTES
+
+    helpers do
+
+        def redirect_if_not_owner(motorcycle)
+            if motorcycle.user.id != session[:user_id]
+                flash[:message] = "You may Only Edit Your Own Motorcycle"
+                redirect '/motorcycles'
+            end
+        end
     end
 
 end
