@@ -84,5 +84,14 @@ class ApplicationController < Sinatra::Base
             year.to_i.between?(1885, DateTime.now.year + 1)      
         end
 
+        def redirect_if_bad_route(class_name)
+            object_class = class_name.constantize
+            valid_object = object_class.find_by_id(params[:id])
+            
+            if !valid_object
+               redirect "not_found"
+            end
+        end
+
     end
 end

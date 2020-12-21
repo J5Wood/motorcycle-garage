@@ -41,18 +41,14 @@ class BrandsController < ApplicationController
 
     get '/brands/:id' do
         self.redirect_if_not_logged_in
+        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
         @brand = Brand.find_by_id(params[:id])
-
-        #redirect for bad route
-        if !@brand
-            redirect '/brands'
-        else
-            erb :'brands/show'
-        end
+        erb :'brands/show'
     end
 
     get '/brands/:id/edit' do
         self.redirect_if_not_logged_in
+        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
         @brand = Brand.find_by_id(params[:id])
         erb :'brands/edit'
     end
@@ -79,6 +75,7 @@ class BrandsController < ApplicationController
 
     get '/brands/:id/delete' do
         self.redirect_if_not_logged_in
+        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
         @brand = Brand.find_by_id(params[:id])
         if @brand.motorcycles.count == 0
             erb :'brands/delete'
