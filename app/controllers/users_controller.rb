@@ -8,14 +8,10 @@ class UsersController < ApplicationController
 
     get '/users/:id' do
         self.redirect_if_not_logged_in
+        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
+
         @user = User.find_by_id(params[:id])
-
-        #redirect for bad route
-        if !@user
-            redirect '/users/home'
-
-        #Send to home page for self, otherwise user show page.
-        elsif @user.id == session[:user_id]
+        if @user.id == session[:user_id]
             redirect '/users/home'
         else
             erb :'users/show'
@@ -24,6 +20,8 @@ class UsersController < ApplicationController
 
     get '/users/:id/edit' do
         self.redirect_if_not_logged_in
+        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
+
         if session[:user_id] == params[:id].to_i
             @user = User.find_by_id(session[:user_id])
             erb :'users/edit'
@@ -40,7 +38,7 @@ class UsersController < ApplicationController
             redirect "/users/#{@user.id}/edit"
         end
 
-        # Check for new name entry & change, then check if name is taken
+        # Check for new name entry & name change, then check if name is taken
         if !params[:username].empty? && params[:username] != @user.username
             if !User.find_by(username: params[:username])
                 @user.username = params[:username]
@@ -59,11 +57,13 @@ class UsersController < ApplicationController
 
     get '/users/:id/delete' do
         self.redirect_if_not_logged_in
+        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
+
         @user = User.find_by_id(session[:user_id])
         if @user.id == params[:id].to_i
             erb :'users/delete'
         else
-            flash[:message] = "You May Only Delete Your Own Profile"
+            flash[:message] = "You May Only Delete Your Own Profile!!!"
             redirect "/users/home"
         end
     end
