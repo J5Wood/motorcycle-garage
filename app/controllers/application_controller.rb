@@ -87,8 +87,9 @@ class ApplicationController < Sinatra::Base
         def redirect_if_bad_route(class_name)
             object_class = class_name.constantize
             valid_object = object_class.find_by_id(params[:id])
-            
-            if !valid_object
+
+            # Check that object exists and route id is numeric
+            if !valid_object || params[:id].to_i.to_s != params[:id]
                redirect "not_found"
             end
         end
