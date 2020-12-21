@@ -38,7 +38,7 @@ class MotorcyclesController < ApplicationController
         end
 
         if !params[:color].empty?
-            motorcycle.color = params[:color]
+            motorcycle.color = params[:color].downcase.capitalize
         end
 
         if !params[:mileage].empty?
@@ -84,7 +84,7 @@ class MotorcyclesController < ApplicationController
             motorcycle.name = params[:name]
         end
         if !params[:color].empty?
-            motorcycle.color = params[:color]
+            motorcycle.color = params[:color].downcase.capitalize
         end
         if !params[:mileage].empty?
             motorcycle.mileage = params[:mileage]
