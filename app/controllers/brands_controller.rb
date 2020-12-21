@@ -50,11 +50,14 @@ class BrandsController < ApplicationController
         self.redirect_if_not_logged_in
         self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
         @brand = Brand.find_by_id(params[:id])
+        session[:brand_id] = @brand.id
         erb :'brands/edit'
     end
 
     patch '/brands/:id' do
         brand = Brand.find_by_id(params[:id])
+        redirect_for_wrong_brand(brand)
+
         if !params[:name].empty?
             brand.name = params[:name]
         end
@@ -96,6 +99,15 @@ class BrandsController < ApplicationController
                 flash[:message] = "Brand Still Has Motorcycles Garaged, Can't Delete"
                 redirect '/brands'
             end
+        end
+
+        def redirect_for_wrong_brand(brand)
+            if brand.id != session[:brand_id]
+                session[:brand_id] = nil
+                flash[:message] = "Invalid Brand Change"
+                redirect "/brands"
+            end
+            session[:brand_id] = nil
         end
     end
 
