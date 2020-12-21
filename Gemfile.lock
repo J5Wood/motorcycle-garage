@@ -32,7 +32,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rake (13.0.1)
+    rake (13.0.3)
     require_all (3.0.0)
     ripl (0.7.1)
       bond (~> 0.5.1)
@@ -56,6 +56,7 @@ GEM
     sinatra-flash (0.3.0)
       sinatra (>= 1.0.0)
     sqlite3 (1.4.2)
+    sysrandom (1.0.5)
     thin (1.8.0)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -67,12 +68,12 @@ GEM
       ripl-multi_line (>= 0.2.4)
       ripl-rack (>= 0.2.0)
       sinatra (>= 1.2.1)
-    tzinfo (1.2.8)
+    tzinfo (1.2.9)
       thread_safe (~> 0.1)
     zeitwerk (2.4.2)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-19
 
 DEPENDENCIES
   activerecord (~> 6.0.0)
@@ -85,8 +86,9 @@ DEPENDENCIES
   sinatra-activerecord
   sinatra-flash
   sqlite3
+  sysrandom
   thin
   tux
 
 BUNDLED WITH
-   2.1.4
+   2.2.2
