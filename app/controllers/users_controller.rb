@@ -1,16 +1,16 @@
 class UsersController < ApplicationController
 
     get '/users/home' do
-        self.redirect_if_not_logged_in
+        redirect_if_not_logged_in
         @user = User.find_by_id(session[:user_id])
         erb :'users/home'
     end
 
     get '/users/:id' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
-
+        redirect_if_not_logged_in
         @user = User.find_by_id(params[:id])
+        redirect_if_bad_route(@user)
+
         if @user.id == session[:user_id]
             redirect '/users/home'
         else
@@ -19,11 +19,11 @@ class UsersController < ApplicationController
     end
 
     get '/users/:id/edit' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
-        
+        redirect_if_not_logged_in
         @user = User.find_by_id(params[:id])
+        redirect_if_bad_route(@user)
         redirect_if_incorrect_user(@user)
+
         erb :'users/edit'
     end
 
@@ -54,10 +54,9 @@ class UsersController < ApplicationController
     end  
 
     get '/users/:id/delete' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
-
+        redirect_if_not_logged_in
         @user = User.find_by_id(params[:id])
+        redirect_if_bad_route(@user)
         redirect_if_incorrect_user(@user)
 
         erb :'users/delete'

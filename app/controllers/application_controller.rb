@@ -8,7 +8,7 @@ class ApplicationController < Sinatra::Base
    
 
     get '/' do
-        if  !self.logged_in?
+        if  !logged_in?
             erb :'index', :layout => false
         else
             redirect "/users/home"
@@ -16,7 +16,7 @@ class ApplicationController < Sinatra::Base
     end
 
     get '/login' do
-        if  !self.logged_in?
+        if  !logged_in?
             erb :'login', :layout => false
         else
             redirect "/users/home"
@@ -36,7 +36,7 @@ class ApplicationController < Sinatra::Base
     end
 
     get '/signup' do
-        if !self.logged_in?
+        if !logged_in?
             erb :'signup', :layout => false
         else
             redirect "users/home"
@@ -83,15 +83,10 @@ class ApplicationController < Sinatra::Base
             year.to_i.between?(1885, DateTime.now.year + 1)      
         end
 
-        def redirect_if_bad_route(class_name)
-            object_class = class_name.constantize
-            valid_object = object_class.find_by_id(params[:id])
-
-            # Check that object exists and route id is numeric
-            if !valid_object || params[:id].to_i.to_s != params[:id]
-               redirect "not_found"
+        def redirect_if_bad_route(object)
+            if !object
+                redirect "not_found"
             end
         end
-
     end
 end

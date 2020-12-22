@@ -1,13 +1,13 @@
 class MotorcyclesController < ApplicationController
 
     get '/motorcycles' do
-        self.redirect_if_not_logged_in
+        redirect_if_not_logged_in
         @motorcycles = Motorcycle.all.sort_by{|mc| mc.brand.name}
         erb :'motorcycles/index'
     end
 
     get '/motorcycles/new' do
-        self.redirect_if_not_logged_in
+        redirect_if_not_logged_in
         @brands = Brand.all
         erb :'motorcycles/new'
     end
@@ -50,18 +50,18 @@ class MotorcyclesController < ApplicationController
     end
 
     get '/motorcycles/:id' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
-        
+        redirect_if_not_logged_in
         @motorcycle = Motorcycle.find_by_id(params[:id])
+        redirect_if_bad_route(@motorcycle)
+
         erb :'motorcycles/show'
     end
 
     get '/motorcycles/:id/edit' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
-        
+        redirect_if_not_logged_in
         @motorcycle = Motorcycle.find_by_id(params[:id])
+        redirect_if_bad_route(@motorcycle)
+
         if session[:user_id] == @motorcycle.user.id
             @brands = Brand.all
             erb :'motorcycles/edit'
@@ -107,13 +107,9 @@ class MotorcyclesController < ApplicationController
     end
 
     get '/motorcycles/:id/delete' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
-        
-        # change redirect
-
+        redirect_if_not_logged_in
         @motorcycle = Motorcycle.find_by_id(params[:id])
-        
+        redirect_if_bad_route(@motorcycle)
 
         if @motorcycle.user_id.to_i == session[:user_id]
             erb :'motorcycles/delete'

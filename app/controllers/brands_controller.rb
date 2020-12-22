@@ -1,7 +1,7 @@
 class BrandsController < ApplicationController
 
     get '/brands' do
-        self.redirect_if_not_logged_in
+        redirect_if_not_logged_in
         @brands = Brand.all.sort_by{|brand| brand.name }
         erb :'brands/index'
     end
@@ -35,21 +35,21 @@ class BrandsController < ApplicationController
     end
 
     get '/brands/new' do
-        self.redirect_if_not_logged_in
+        redirect_if_not_logged_in
         erb :'brands/new'
     end
 
     get '/brands/:id' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
+        redirect_if_not_logged_in
         @brand = Brand.find_by_id(params[:id])
+        redirect_if_bad_route(@brand)
         erb :'brands/show'
     end
 
     get '/brands/:id/edit' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
+        redirect_if_not_logged_in
         @brand = Brand.find_by_id(params[:id])
+        redirect_if_bad_route(@brand)
         session[:brand_id] = @brand.id
         erb :'brands/edit'
     end
@@ -77,10 +77,10 @@ class BrandsController < ApplicationController
     end
 
     get '/brands/:id/delete' do
-        self.redirect_if_not_logged_in
-        self.redirect_if_bad_route(self.env["REQUEST_PATH"].split("/")[1][0...-1].capitalize)
-        
+        redirect_if_not_logged_in
         @brand = Brand.find_by_id(params[:id])
+        redirect_if_bad_route(@brand)
+
         redirect_if_brand_has_motorcycles(@brand)
         erb :'brands/delete'
     end
