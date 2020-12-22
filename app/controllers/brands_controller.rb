@@ -103,11 +103,9 @@ class BrandsController < ApplicationController
 
         def redirect_for_wrong_brand(brand)
             if brand.id != session[:brand_id]
-                session[:brand_id] = nil
                 flash[:message] = "Invalid Brand Change"
                 redirect "/brands"
             end
-            session[:brand_id] = nil
         end
     end
 
